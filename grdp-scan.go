@@ -54,26 +54,26 @@ func main() {
 	syncPacket := []byte {
 	
 		0x03, 0x00, 0x00, 0x13,  // TPKT Header (версия 3, длина 19 байт) //19 c
-		0x0e, 					 // X.224 Length Indicator //14 без
+		0x0e, 			 // X.224 Length Indicator //14 без
 		0xe0,                    // X.224 CR(0xe) CDT(0x0) -> 0xe
 		0x00, 0x00,              // X.224 DST-REF
 		0x00, 0x00,              // X.224 SRC-REF 
 		0x00,                    // X.224 CLASS OPTION
 		0x01, 0x00, 0x0008,  	 // X.224 RDP Negotiation Request (Type: 0x01, Flags: 0x00, Length: 0x08)
 		0x00, 0x0b, 0x00, 0x00,  // Requested Protocols (PROTOCOL_RDP | PROTOCOL_SSL | PROTOCOL_HYBRID) 
-		0x00,					 // Padding
+		0x00,			 // Padding
 	}
 
 	_, err = conn.Write(syncPacket)
 	if err != nil {
-		log.Fatalf("Ошибка отправки данных: %v", err)
+		log.Fatalf("Error sending data: %v", err)
 	}
 
 	// read response
 	buffer := make([]byte, 1024)
 	n, err := conn.Read(buffer)
 	if err != nil {
-		log.Fatalf("Ошибка чтения ответа: %v", err)
+		log.Fatalf("Error reading the response: %v", err)
 	}
 
 	fmt.Printf("\nServer response\n%s", hex.Dump(buffer[:n]))
@@ -97,13 +97,13 @@ func main() {
 	
 	_, err = tlsConn.Write(ntlmNegotiate)
 	if err != nil {
-		fmt.Println("Ошибка отправки NTLM Negotiate:", err)
+		fmt.Println("Error sending NTLM Negotiate:", err)
 		return
 	}	
 	
 	n, err = tlsConn.Read(buffer)
 	if err != nil {
-		fmt.Println("Ошибка чтения NTLM Challenge:", err)
+		fmt.Println("NTLM Challenge Reading Error:", err)
 		return
 	}
 	
@@ -115,7 +115,7 @@ func main() {
 
 func parseNTLMChallenge(challenge []byte) {
 	if len(challenge) < 48 {
-		fmt.Println("Ошибка: NTLM Challenge слишком короткий")
+		fmt.Println("Error: NTLM Challenge is too short")
 		return
 	}
 
