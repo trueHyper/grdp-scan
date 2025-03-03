@@ -174,7 +174,7 @@ func printNTLMTargetInfo(data []byte) {
 	dataLen = len(buffer)
 	offset = domainOffset // type pos
 	
-	for flag := true; flag; {
+	for ; ; {
 	
 		if offset >= dataLen {
 			break
