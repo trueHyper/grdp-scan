@@ -28,6 +28,7 @@ const (
 	ntEpochOffset = 11644473600
 )
 
+// wireshark
 //char peer0_0[] = 
 //{ /* Packet 4 */
 //	0x03, 0x00, 0x00, 0x13,  TPKT Header (версия 3, длина 19 байт)
@@ -38,21 +39,9 @@ const (
 //	0x00, 
 //	0x01, 0x00, 0x08,  		 RDP Negotiation Request (Type: 1, Flags: 0, len: 8)
 //	0x00, 0x0b, 0x00,  		 Requested Protocols (PROTOCOL_RDP | PROTOCOL_SSL | PROTOCOL_HYBRID) а где четвертый?
-//	0x00, 0x00 				 Padding ??
-//};
-//
-//char peer1_0[] = 
-//{ /* Packet 6 */
-//	0x03, 0x00, 0x00, 0x13, 0x0e, 0xd0, 0x00, 0x00, 
-//	0x12, 0x34, 0x00, 0x02, 0x01, 0x08, 0x00, 0x00, 
-//	0x00, 0x00, 0x00 
+//	0x00, 0x00 		         Padding ??
 //};
 
-
-// rdp://157.90.26.70:3389
-// localhost 172.27.75.84:3390
-// 157.97.8.146:3389
-//157.90.99.168:3389
 func main() {
 	server := "157.90.41.185:3389" // Замените на IP-адрес вашего RDP-сервера
 	conn, err := net.Dial("tcp", server)
@@ -80,7 +69,7 @@ func main() {
 		log.Fatalf("Ошибка отправки данных: %v", err)
 	}
 
-	// Читаем ответ
+	// read response
 	buffer := make([]byte, 1024)
 	n, err := conn.Read(buffer)
 	if err != nil {
@@ -94,7 +83,7 @@ func main() {
 	defer tlsConn.Close()
 	
 	ntlmNegotiate := []byte {
-		0x30, 0x37, 0xA0, 0x03, 0x02, 0x01, 0x60, 0xA1, 0x30, 0x30, 0x2E, 0x30, 0x2C, 0xA0, 0x2A, 0x04, 0x28, // ASN
+		0x30, 0x37, 0xA0, 0x03, 0x02, 0x01, 0x60, 0xA1, 0x30, 0x30, 0x2E, 0x30, 0x2C, 0xA0, 0x2A, 0x04, 0x28, // ASN header
 		0x4E, 0x54, 0x4C, 0x4D, 0x53, 0x53, 0x50, 0x00, // "NTLMSSP" Signature
 		0x01, 0x00, 0x00, 0x00, // NTLM Message Type 1
 		0xB7, 0x82, 0x08, 0xE2, // Flags
@@ -170,7 +159,7 @@ func printNTLMTargetInfo(data []byte) {
 	
 	// get version major/minor/build
 	challenge.ProductVersion = fmt.Sprintf("%d.%d.%d", buffer[48], buffer[49], 
-												int(binary.LittleEndian.Uint16(buffer[50:52])))
+					int(binary.LittleEndian.Uint16(buffer[50:52])))
 	
 	//fmt.Println("ver:",challenge.ProductVersion)
 	
