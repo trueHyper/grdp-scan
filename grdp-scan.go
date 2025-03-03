@@ -43,7 +43,7 @@ const (
 //};
 
 func main() {
-	server := "157.90.41.185:3389" // Замените на IP-адрес вашего RDP-сервера
+	server := "157.90.41.185:3389" 
 	conn, err := net.Dial("tcp", server)
 	if err != nil {
 		log.Fatalf("Ошибка подключения: %v", err)
