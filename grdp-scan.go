@@ -141,7 +141,7 @@ func parseNTLMTargetInfo(data []byte) error {
 	var challenge NTLMChallenge
 	var targetLen, targetOffset int
 	
-	//fmt.Printf("\nTarget Info\n%s", hex.Dump(challenge))
+	//fmt.Printf("\nTarget Info\n%s", hex.Dump(data))
 	
 	pos := strings.Index(string(data), signature)
 	if pos == -1 {
