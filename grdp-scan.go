@@ -42,7 +42,7 @@ const (
 func main() {
 
 	if len(os.Args) < 2 {
-		fmt.Println("Using: go run main.go <addr:port>")
+		fmt.Println("Using: go run grdp-scan.go <addr:port>")
 		return
 	}
 
@@ -221,7 +221,8 @@ func printNTLMTargetInfo(data []byte) error {
 		
 		offset += fieldLen
 	}
-	
+
+	// вынести потом
 	fmt.Println("\n|Target_Name:", challenge.TargetName)
 	fmt.Println("|NetBIOS_Domain_Name:", challenge.NetBIOSDomainName)
 	fmt.Println("|NetBIOS_Computer_Name:", challenge.NetBIOSComputerName)
