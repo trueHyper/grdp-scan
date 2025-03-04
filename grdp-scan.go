@@ -129,7 +129,11 @@ func main() {
 		return
 	}
 
-	printNTLMTargetInfo(buffer[:n])
+	err = printNTLMTargetInfo(buffer[:n])
+	if err != nil {
+	        fmt.Println(err)
+       		return
+    	}
 }
 
 func printNTLMTargetInfo(data []byte) error {
