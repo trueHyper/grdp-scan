@@ -129,14 +129,14 @@ func main() {
 		return
 	}
 
-	err = printNTLMTargetInfo(buffer[:n])
+	err = parseNTLMTargetInfo(buffer[:n])
 	if err != nil {
 	        fmt.Println(err)
        		return
     	}
 }
 
-func printNTLMTargetInfo(data []byte) error {
+func parseNTLMTargetInfo(data []byte) error {
 	
 	var challenge NTLMChallenge
 	var targetLen, targetOffset int
@@ -226,15 +226,7 @@ func printNTLMTargetInfo(data []byte) error {
 		offset += fieldLen
 	}
 
-	// вынести потом
-	fmt.Println("\n|Target_Name:", challenge.TargetName)
-	fmt.Println("|NetBIOS_Domain_Name:", challenge.NetBIOSDomainName)
-	fmt.Println("|NetBIOS_Computer_Name:", challenge.NetBIOSComputerName)
-	fmt.Println("|DNS_Domain_Name:", challenge.DNSDomainName)
-	fmt.Println("|DNS_Computer_Name:", challenge.DNSComputerName)
-	fmt.Println("|DNS_Tree_Name:", challenge.DNSTreeName)
-	fmt.Println("|Product_Version:", challenge.ProductVersion)
-	fmt.Println("|System_Time:", challenge.SystemTime)
+	printChallengeInfo(&challenge)
 	
 	return nil
 }
@@ -262,3 +254,15 @@ func ConvertFILETIME(filetime []byte) string {
 	
 	return t.Format(time.RFC3339)
 }
+
+func printChallengeInfo(challenge* NTLMChallenge) {
+	fmt.Println("\n|Target_Name:", challenge.TargetName)
+	fmt.Println("|NetBIOS_Domain_Name:", challenge.NetBIOSDomainName)
+	fmt.Println("|NetBIOS_Computer_Name:", challenge.NetBIOSComputerName)
+	fmt.Println("|DNS_Domain_Name:", challenge.DNSDomainName)
+	fmt.Println("|DNS_Computer_Name:", challenge.DNSComputerName)
+	fmt.Println("|DNS_Tree_Name:", challenge.DNSTreeName)
+	fmt.Println("|Product_Version:", challenge.ProductVersion)
+	fmt.Println("|System_Time:", challenge.SystemTime)
+}
+
