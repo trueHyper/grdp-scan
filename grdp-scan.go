@@ -166,7 +166,7 @@ func printNTLMTargetInfo(data []byte) {
 	if domainLen == 0 {
 	// no TargetInfoFields
 		//return
-		fmt.Printf("hahahah")
+		fmt.Printf("domainLen = 0")
 	}
 	
 	var dataLen, offset, fieldType, fieldLen int
